@@ -1,0 +1,50 @@
+@startuml vc
+class Usuario{
+    - nombre : String
+    - apellido: String
+    - DNI : Int
+    - correo: String
+    - telefono: Int
+    - vehiculosRegistrados: List<Vehiculo>
+    - serNotificado : bool
+    - nombresDeUsuario : List<RedSocial>
+}
+
+class RedSocial{
+    -nombreUsuario:string
+}
+
+class Vehiculo{
+    - marca: String
+    - color: String
+    - patente: String
+}
+
+class Viaje{
+    - creador : Usuario
+    - destinoPrevisto
+    - puntosIntermedios
+    - pasajeros: List<Usuario>
+}
+
+class GeneradorViaje{
+    - viajesProgramados: List<Viaje>
+    + buscarViajesProgramados()
+    + generarViaje(viajesProgramados List<Viaje>): void
+}
+
+class Notificador{
+    + notificar(pasajero Usuario, mensaje String): void
+}
+
+class Ruta {
+    -origen: String
+    -destino: String
+    -intermedias: List<Ruta>
+}
+
+Usuario --> "*" Vehiculo
+GeneradorViaje ..> Notificador
+
+
+@enduml
