@@ -1,0 +1,21 @@
+@startuml misGastos
+class Gasto{
+    -fecha: LocalDate
+    -hora: LocalTime
+    -monto: Int
+    -descripcion: String
+    -categoria: Categoria
+    -comercio: Comercio   
+}
+
+class Comercio{}
+class Categoria{
+    -id: int
+
+}
+
+class Categorizador{
+    - adapter: 
+}
+
+@enduml

@@ -1,0 +1,42 @@
+@startuml laLicuadora
+
+class ProductoBase{
+    - nombre : String
+    - precioBase : Integer
+    - descripcion : String
+    - tiempoEstimado : Integer
+    - personalizaciones : List<Personalizacion>
+}
+
+class Personalizacion{
+    - nombre : String
+    - precio : Integer
+    - tipo : TipoDePersonalizacion
+    - area : String
+}
+
+interface TipoDePersonalizacion{
+    + aplicarPersonalizacion(producto: ProductoBase) : ProductoBase
+}
+
+class PersonalizacionImagen implements TipoDePersonalizacion{
+    - imagen : String
+    + aplicarPersonalizacion(producto: ProductoBase) : ProductoBase
+}
+
+class Publicacion{
+    - producto:
+    - precio : int
+}
+
+class Tienda{
+    - publicaciones: List<Publicacion>
+    + pausarPublicacion(publicacion Publicacion): void
+    + cancelarPublicacion(publicacion Publicacion): void
+}
+
+class Carrito{
+    
+}
+
+@enduml
