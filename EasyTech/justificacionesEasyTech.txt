@@ -1,0 +1,9 @@
+RETIRO POR LOCAL
+si NO ahy dispositivo --> orden "PENDIENTE" 
+si HAY --> orden "GENERADA" --> "LISTA PARA RETIRAR"
+
+ENVIO
+SE DELEGA
+
+observer para notificar al clinete, state para las solicitudes, observer cambiado porque no es una lista de observadores sino que es uno solo por lo que no requiero una interfaz de iObserver,
+la interfaz iObservable se mezcla con la del state

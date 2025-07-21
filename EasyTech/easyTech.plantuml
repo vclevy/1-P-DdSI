@@ -1,0 +1,90 @@
+@startuml easyTech
+
+class Dispositivo{
+    - marca: String
+    - modelo: String
+    - peso: Int
+    - precio: Int
+    - numeroSerie: Int
+    - fechaDeAlta: DateTime 
+    - categoria: Categoria
+    - deBaja : bool
+    - inactivo : bool
+    - latitud : Long
+    - longitud : Long
+
+    + alertar(rango Int): void
+}
+
+class Categoria{
+    - id: Int
+}
+
+class Cliente{
+    - nombre: String
+    - apellido: String
+    - cuit: Int
+    - condicionIVA: String
+    - mediosDeContacto: List<String>
+}
+
+class SolicitudAlquiler{
+    - cliente: Cliente
+    - categorias: List<Categoria,Integer>
+    - DireccionEntrega: String
+    - envio: bool
+    - fechaInicio: LocalDate
+    - fechaFin: LocalDate
+}
+
+class OrdenAlquiler{
+    - dispositivos: List<Dispositivo>
+    - estado: Estado
+    - cliente: Cliente
+
+    + actuar()
+    + cambiarEstado()
+}
+
+interface Estado{
+    + actuar(OrdenAlquiler orden) : void
+    + agregar(): void 
+    + eliminar(): void
+    + notificar(): void
+}
+
+class Pendiente implements Estado{
+    + actuar(OrdenAlquiler orden)
+}
+
+class Generada implements Estado{
+    + actuar(OrdenAlquiler orden)
+}
+
+class ListaParaRetirar implements Estado{
+    + actuar(OrdenAlquiler orden)
+}
+
+class Devuelta implements Estado{
+    + actuar(OrdenAlquiler orden)
+}
+
+class Alerta{
+    - ordenAlquiler: OrdenAlquiler
+    - latitud: Long
+    - longitud: Long
+   
+}
+
+OrdenAlquiler --> Estado
+Dispositivo --> Categoria
+OrdenAlquiler --> "*" Dispositivo
+Pendiente ..> Generada
+Generada ..> ListaParaRetirar
+ListaParaRetirar ..> Devuelta
+Alerta ..> OrdenAlquiler
+Dispositivo ..> Alerta
+SolicitudAlquiler --> Cliente
+OrdenAlquiler --> Cliente
+
+@enduml
