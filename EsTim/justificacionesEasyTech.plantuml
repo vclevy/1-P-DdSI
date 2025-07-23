@@ -1,0 +1,4 @@
+MetodoDePago es un enum para mantener la consistencia de datos
+Inyecto la dependencia de AnalizadorDeFraude
+Uso patron command para las acciones a tomar frente al fraude 
+No puede ser un enum el genero ya que los administradores tienen que poder modificarlos en tiempo de ejecucion

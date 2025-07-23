@@ -1,0 +1,100 @@
+@startuml gtv
+
+class Entidad{
+    - denominacionLegal : String
+    - demoraAprox: Int
+    - fechaAltaIGJ: LocalDate
+    - fechaAltaSistema: LocalDate
+    - mail: String
+
+}
+
+class Tramite{
+    - nombre : String   
+    - codigo: Int 
+    - tiempoEstimado : LocalDate
+    - formularios: List<Formulario>
+    - porcentajeAsociado: Int
+
+    + costoFinalTramite(): Int
+}
+
+class Formulario{
+    - fechaAltaFormulario: LocalDate
+    - campos : List<Campo>
+    - fechaVencimiento: LocalDate
+    - costo: Int
+    - anulado : Bool
+    - renovaciones: Int
+    - persona : Entidad
+
+    + estaVencido()
+    + renovar()
+}
+
+class GestorDeVencimiento{
+    - emailSender: EmailSender
+    - formularios : List<Formulario>
+
+    + verificarVencimiento() : void
+}
+
+class EmailSender{
+    + mandarMail (destinatario String, asunto String, cuerpo String) : void
+}
+
+class Campo{
+    - esObigatorio: Bool
+    - nombre: String
+}
+
+class RespuestaDeCampo{
+    - campo : Campo
+    - valor : String
+}
+
+Tramite --> "*" Formulario
+Formulario --> "*" Campo
+RespuestaDeCampo --> Campo
+
+class SolicitudDeTramite{
+    - tramitante: Entidad
+    - tramite: Tramite
+    - estados: List<EstadoTramite>
+    - estadoActual : EstadoTramite
+    
+    
+}
+
+interface EstadoTramite{}
+
+interface AccionesConfigurables{
+    + ejecutar(): void
+}
+
+class EnviarMail implements AccionesConfigurables{
+    - mensaje : String
+    - emailSender: EmailSender
+
+    + ejecutar():  void
+}
+
+class EnviarAlerta implements AccionesConfigurables{
+    - mensaje: String
+    - alerta : Alerta
+
+    + ejecutar():  void
+}
+
+class LlamarApiExterna implements AccionesConfigurables{
+    - metodoHttp: MetodoHttp
+    - uri: String
+    - body: 
+}
+
+enum MetodoHttp{
+    GET,
+    POST,
+}
+
+@enduml

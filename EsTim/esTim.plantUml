@@ -1,0 +1,87 @@
+@startuml estim
+
+class JuegoBase implements Juego{
+    - nombre: String
+    - requerimientosCPU: Int
+    - memoria: Int
+    - almacenamiento: Int
+    - genero: Genero
+    - dlcs : List<DLC>
+}
+
+interface Juego{
+
+}
+
+class DLC implements Juego{
+    - nombre: String
+    - precioVenta: Int
+}
+
+class JuegoAdquirido{
+    - juego: Juego
+    - usuarioOwner: Usuario
+}
+
+class Usuario{
+    - nombre: String
+    - cuentaSospechosa: Bool
+    - biblioteca: List<JuegoAdquirido>
+    - prestamos: List<Prestamo>
+
+    + agregarABiblioteca(juego JuegoAdquirido): void
+    + eliminarDeBiblioteca(juego JuegoAdquirido): void
+    + marcarSospechoso(): void
+}
+
+class Prestamo{
+    - fechaInicio: LocalDate
+    - fechaFin: LocalDate
+    - juego: JuegoAdquirido
+    - conocido: Usuario
+    - analizadorFraude: AnalizadorFraude
+}
+
+class Venta{
+    - comprador : Usuario
+    - medioDePago : MedioDePago
+    - juego : Juego
+    - precioVenta: Int
+    - fechaVenta: LocalDateTime
+
+    + transferirJuego(): JuegoAdquirido
+    + comprar(): void 
+}
+
+class Genero{
+    - atributos : Atributo
+}
+
+class Atributo{
+
+}
+
+class AnalizadorFraude{
+    - commands: List<CommandFraude>
+
+    + masDeXPrestamosAMismoUsuarioEnUnAño(can Int, user Usuario): Bool
+    + masDeXPrestamosEnUnAño(cantidad Int, Usuario): Bool
+    + prestamoPorMasDe(anio Int, user Usuario): Bool
+
+    + analizarFraude(): void
+}
+
+interface CommandFraude{
+    - ejecutar() : void
+}
+
+
+Usuario --> "*" Prestamo
+Usuario --> "*" JuegoAdquirido
+Juego <-- Venta
+Venta ..> JuegoAdquirido
+
+Prestamo --> AnalizadorFraude
+AnalizadorFraude --> CommandFraude
+
+@enduml

@@ -1,0 +1,12 @@
+- Para propiciar el principio de Single Resposibility  creamos una clase validadora de vencimiento la cual correra diariamente un cronjob para
+  verificar cuales con los formularios vencidos y actuar en consecuencia. 
+
+  pseudocodigo de verificarVencimiento:
+  para todos los formularios de la lista: if (f.estaVencido()){
+    f.anulado = true
+    enviarMail()
+  }
+
+  renovacion: es un entero q cuando a llega a 3 ya no se peude usar renovar()
+
+  

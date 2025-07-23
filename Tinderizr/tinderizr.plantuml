@@ -1,0 +1,21 @@
+@startuml tinderizr
+
+class Dominio{
+    - tipo : Tipo
+    - tagsAsociados : List<Tag>
+}
+
+class Perfil{
+    - nombre : String 
+    - descripcion: String
+    - dominio : Dominio
+}
+
+enum Tags{
+    TECNOLOGIA,
+    ...
+}
+
+
+
+@enduml
