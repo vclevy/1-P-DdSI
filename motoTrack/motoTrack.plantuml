@@ -1,0 +1,44 @@
+@startuml mototrack
+
+class Moto{
+    - marca: String
+    - modelo: String
+    - anio : Integer 
+    - patente : Integer    
+    - fotos: List<String>
+    - capacidadTanque: Int
+}
+
+class Motoquero
+
+class caminoNoConvencional{
+    - nombre : String
+    - descripcion : String
+    - fotos : MapList<String,String>
+    - dificultad: Dificultad
+    - terreno: String
+    - duracion: Duration
+    - distanciaTotal: Int
+    - puntoPartida: Lugar
+    - puntoLlegada: Lugar
+}
+
+class Lugar{
+    - latitud: Long
+    - longitud: Long
+
+}
+
+class LugarDeInteres{
+    - lugar : Lugar
+    - descripcion : String
+    - fotos : List<String>
+}
+
+enum Dificultad{
+    PRINCIPIANTE,
+    INTERMEDIO,
+    AVANZADO,
+    EXTREMO
+}
+@enduml
