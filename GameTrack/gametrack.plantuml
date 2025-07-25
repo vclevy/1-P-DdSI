@@ -1,0 +1,168 @@
+@startuml gametrack
+
+class Establecimiento{
+    - maquinas: List<Maquina>
+    - id: String
+    - nombre: String
+}
+
+class Jugador{
+    - id : String
+    - nombre: String
+    - email: String
+    - direccion: Direccion
+    - membresias: List<Membresia>
+    - tarjeta : Tarjeta
+
+    
+    + activarMembresia(membresiaTarget Membresia): void
+    + darDeBaja(membresiaTarget Membrecia): void
+}
+
+class Direccion{
+    - calle: String
+    - altura: Int
+    - piso: String
+    - localidad: String
+    - municipio: String
+    - provincia: String
+}
+
+class Tarjeta{
+    - creditos: Int
+    - deBaja : Bool
+
+    + consumirCreditos(creditos Int): void
+    + vaciarCreditos(): void
+    + darDeBaja(): void
+    + verificarCreditosDisponibles() : void
+}
+
+abstract class Membresia{
+    - puntos: Int
+    - estaActiva: Bool
+    # {abstract} sumarPuntos(puntos Int): void
+    # {abstract} darDeBaja(): void
+    # {abstract} activarMembresia()
+}
+
+class Basica extends Membresia{
+    + aplicarBeneficios(): void
+    + creditosAConsumir(creditosBase Int): Int
+}
+
+class Gold extends Membresia{
+    - porcentajeAumento: Int
+    - descuentoFijoCreditos : Int
+    + aplicarBeneficios(): void
+    + creditosAConsumir(creditosBase Int): Int
+}
+
+class Platinum extends Membresia{
+    - topeMax: Int
+    + aplicarBeneficios(): void
+    + creditosAConsumir(creditosBase Int): Int
+}
+
+class Maquina{
+    - id: String
+    - fechaFabricacion: LocalDate
+    - fechaRevision: LocalDate
+    - juego: Juego
+}
+
+class Juego{
+    - id: String
+    - categoria: CategoriaJuego
+    - creditosQueConsume: Int
+    - puntosQueOtorga: Int
+}
+
+enum CategoriaJuego{
+    VIDEOJUEGO,
+    SIMULADOR,
+    DESTREZA,
+    1V1
+}
+
+class Partida{
+    - maquina : Maquina
+    - jugador : Jugador
+    - resultado: ResultadoJuego
+}
+
+class ResultadoJuego{
+    -jugadorId: String
+    -fechaHora: LocalDateTime
+    -duracion: Int
+    -juegoId: String
+    -puntaje: Int
+    -maquinaId: String
+}
+
+class Premio{
+    - costo : Int  
+    - nombre: String
+    - descripcion: String
+}
+
+class CanjeadorPremio{
+    - premioACanjear: Premio
+    - plataformaEnvio: PlataformaEnvio
+
+    + canjearPremio(): void
+}
+
+interface PlataformaEnvio{
+    + procesarEnvio(envio Envio)
+}
+
+class AdapterEnvioYa implements PlataformaEnvio{
+    - api: EnvioYa
+    + procesarEnvio(envio Envio)
+}
+
+class EnvioYa{
+    + enviar() : void
+}
+
+class Envio{
+    - nombreCompleto: String
+    - tamanioPaquete: Tamanio
+    - direccionEnvio: Direccion
+}
+
+enum Tamanio{
+    PEQUEÑO,
+    MEDIANO,
+    GRANDE
+}
+
+class GeneradorDeReportes{
+    - estrategiaGeneracion: EstrategiaGeneracion
+
+    + egenerarReporte() : void
+}
+
+interface Estra
+
+
+Jugador --> Tarjeta
+Jugador --> Direccion
+Jugador --> "*" Membresia
+Establecimiento --> "*" Maquina
+Maquina --> Juego
+Partida --> Jugador
+Partida --> ResultadoJuego
+Partida --> Maquina
+Juego --> CategoriaJuego
+CanjeadorPremio --> Premio
+CanjeadorPremio --> PlataformaEnvio
+Envio --> Direccion
+Envio --> Tamanio
+AdapterEnvioYa --> EnvioYa
+CanjeadorPremio ..> Envio
+
+
+
+@enduml

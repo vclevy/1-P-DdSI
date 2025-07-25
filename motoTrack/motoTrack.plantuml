@@ -9,9 +9,29 @@ class Moto{
     - capacidadTanque: Int
 }
 
-class Motoquero
+class Motoquero{
+    - categorizador: Categorizador
+    - kilometrosRecorridos: Int
+    - categoria : Categoria
+    - motos : List<Moto>
+    - numTelefono: Int
 
-class caminoNoConvencional{
+    + cambiarCategoria(): void
+}
+
+class Categorizador{
+    + categorizar(Motoquero motoquero) : void
+}
+
+enum Categoria{
+    PRINCPIANTE,
+    INTERMEDIO,
+    AVANZADO,
+    EXTREMO
+}
+
+
+class CaminoNoConvencional{
     - nombre : String
     - descripcion : String
     - fotos : MapList<String,String>
@@ -21,6 +41,7 @@ class caminoNoConvencional{
     - distanciaTotal: Int
     - puntoPartida: Lugar
     - puntoLlegada: Lugar
+    - puntosDeInteres: List<LugarDeInteres>
 }
 
 class Lugar{
@@ -29,7 +50,19 @@ class Lugar{
 
 }
 
+enum Interes{
+    MIRADOR,
+    LUGAR_HISTORICO,
+    RESTAURANT,
+    BAR,
+    ESTACION_DE_SERVICIO,
+    TALLER_MECANICO,
+    ...
+}
+
+
 class LugarDeInteres{
+    - tipo: Interes
     - lugar : Lugar
     - descripcion : String
     - fotos : List<String>
@@ -41,4 +74,117 @@ enum Dificultad{
     AVANZADO,
     EXTREMO
 }
+
+class Viaje{
+    - motoquero : Motoquero
+    - fechaInicio: LocalDateTime
+    - intereses : List<Interes>
+    - camino: CaminoNoConvencional
+    - moto : Moto
+    - encuesta: Encuesta
+}
+
+class Recomendador{
+    - proveedoresDeClima: List<ProveedorClima>
+    - sugeridorSeguridad: SugerenteSeguridad
+    - sugeridorLugares: SugerenteLugares
+
+    + recomendar(Viaje viajes) : void
+}
+
+interface SugerenteSeguridad{
+    + obtenerRecomendaciones(): RespuestaGPT4
+}
+
+class AdapterGPT4 implements SugerenteSeguridad{
+    api : GPT4
+
+    + obtenerRecomendaciones(): RespuestaGPT4
+}
+
+class GPT4{
+    +generarRecomendacion(): RespuestaGPT4
+}
+
+class RespuestaGPT4{
+    - actividad: String
+    - safetyTips: String
+    - equipamiento: mapList<String,String>
+}
+
+interface SugerenteLugares{
+     + sugerirLugares(viaje Viaje): List<LugarInteres>
+}
+
+class SugerenteLugaresPorInteres{
+    + sugerirLugares(viaje Viaje): List<LugarInteres>
+}
+
+class Clima{
+    - fecha: LocalDate
+    - temperaturaMax: Int
+    - temperaturaMin: Int
+    - descripcion: String
+}
+
+interface ProveedorDeClima{
+    + obtenerPronostico(viaje Viaje): Clima
+}
+
+class AcuweatherAdapter implements ProveedorClima{
+    - api: AcuWeatherAPI
+    + obtenerPronostico(viaje Viaje): Clima
+}
+
+class AcuWeatherAPI{
+    + obtenerPronosticoReal(): Clima
+}
+class WindGuruAdapter implements ProveedorClima{
+    - api: WindGuruAPI
+    + obtenerPronostico(viaje Viaje): Clima
+}
+
+class WindGuruAPI{
+    + obtenerPronosticoReal(): Clima
+}
+
+enum TipoPregunta {
+  TEXTO_LIBRE
+  MULTIPLE_CHOICE
+  SINGLE_CHOICE
+  ESTRELLAS
+}
+
+class Encuesta {
+  - preguntas: List<Pregunta>
+}
+
+class Pregunta {
+  - texto: String
+  - tipo: TipoPregunta
+  - opciones: List<String>  
+}
+
+class FeedbackDeViaje {
+  - respuestas: List<Respuesta>
+  - estrellas: int
+  - viaje: Viaje
+}
+
+class Respuesta {
+  - pregunta: Pregunta
+  - valorTexto: String
+  - valorNumerico: int
+}
+
+Pregunta --> TipoPregunta
+Encuesta --> "*" Pregunta
+Viaje --> Encuesta
+FeedbackDeViaje --> "*" Respuesta
+Respuesta --> Pregunta
+FeedbackDeViaje --> Viaje
+
+
+
+
 @enduml
