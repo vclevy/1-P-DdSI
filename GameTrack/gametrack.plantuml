@@ -32,6 +32,7 @@ class Tarjeta{
     - creditos: Int
     - deBaja : Bool
 
+    + cargarCreditos(creditos Int): void
     + consumirCreditos(creditos Int): void
     + vaciarCreditos(): void
     + darDeBaja(): void
@@ -69,6 +70,7 @@ class Maquina{
     - fechaFabricacion: LocalDate
     - fechaRevision: LocalDate
     - juego: Juego
+    - partidasJugadas: List<Partida>
 }
 
 class Juego{
@@ -86,18 +88,12 @@ enum CategoriaJuego{
 }
 
 class Partida{
-    - maquina : Maquina
-    - jugador : Jugador
-    - resultado: ResultadoJuego
-}
-
-class ResultadoJuego{
-    -jugadorId: String
+    -jugador: Jugador
     -fechaHora: LocalDateTime
     -duracion: Int
     -juegoId: String
     -puntaje: Int
-    -maquinaId: String
+    -maquina: Maquina
 }
 
 class Premio{
@@ -141,11 +137,14 @@ enum Tamanio{
 class GeneradorDeReportes{
     - estrategiaGeneracion: EstrategiaGeneracion
 
-    + egenerarReporte() : void
+    + generarReporte() : void
 }
 
-interface Estra
+interface EstrategiaGeneracion{
+    +generarReporte()
+}
 
+class CSV
 
 Jugador --> Tarjeta
 Jugador --> Direccion

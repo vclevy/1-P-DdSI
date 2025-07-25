@@ -1,0 +1,29 @@
+○ Recargar una cierta cantidad de créditos
+
+en el controller
+
+recargarCredito(datoDTO){
+    jugador = repoJugadores.findbyid(datoDTO.idJugador)
+    jugador.tarjeta.cargarCreditos(datoDTO.cantidad)
+
+    this.repoJugadores.save(jugador)
+}
+
+
+
+○ Registrar una partida que llega de una máquina.
+
+PartidaController(datosDTO){
+    jugadorPartida = repoJugadores.findbyid(datosDTO.idJugador)
+    maquinaPartida = repoMaquinas.findbyid(datosDTO.idmaquina)
+    Resultado resultado = new Partida()
+    resultado.setFechaHora(datosDTO.fechaHora)
+    resultado.setJugador(JugadorPartida)
+    resultado.setMaquina(maquinaPartida)
+
+    this.repoPartidas.save(resultado);
+}
+
+○ Canjear un premio sea en un establecimiento o por internet
+
+
