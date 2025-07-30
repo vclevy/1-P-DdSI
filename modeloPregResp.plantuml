@@ -1,0 +1,47 @@
+@startuml hola
+
+
+class Opcion{
+    valor : String
+}
+
+class Respuesta{
+    Pregunta : pregunta
+    valorTexto : String
+    opcionesChoice : List<Opcion>
+}
+
+class Persona{
+
+}
+
+class FormularioRespondido{
+    persona : Persona
+    formulario : Formulario
+    respuestas : List<Respuesta>
+}
+
+class Pregunta{
+    nombre : String
+    TipoDePregunta : TipoDePregunta
+    opciones : List<Opcion>
+    obligatoria : Bool
+}
+
+Enum TipoDePregunta{
+    MULTIPLE_CHOICE,
+    TEXTO_SIMPLE
+}
+class Formulario{
+    preguntas : List<Pregunta>
+
+}
+
+Formulario --> "*" Pregunta
+FormularioRespondido --> Persona
+FormularioRespondido --> Formulario
+FormularioRespondido --> "*" Respuesta
+Respuesta --> Pregunta
+Respuesta --> "*" Opcion
+Pregunta --> TipoDePregunta
+@enduml

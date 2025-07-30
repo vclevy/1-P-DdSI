@@ -1,0 +1,27 @@
+@startuml email
+
+class Email {
+    - id : Integer
+    - adapter : IEmailAdapter
+    - destinatario : String
+    - remitente : String
+    - asunto : String
+    - contenido : String
+    - enviado : Boolean
+
+    + enviar(): void
+}
+
+interface IEmailAdapter{
+    + enviar(email) : void
+}
+
+class emailSender implements IEmailAdapter{
+    + enviar(email) : void
+}
+
+Email --> IEmailAdapter
+
+
+
+@enduml

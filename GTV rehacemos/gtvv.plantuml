@@ -1,0 +1,130 @@
+@startuml aa
+
+class Entidad{
+    - denomLegal : String
+    - demoraAprox : LocalTime
+    - altaIGJ : LocalDate
+    - altaSistema : LocalDate
+    - tramites : List<Tramite>
+    - responsables: List<Responsable>
+}
+
+class Responsable {
+    - nombre : String
+    - mail : String
+}
+
+class Tramite{
+    - nombre : String
+    - codigo : Integer
+    - tiempoEstimado : LocalTime
+    - formularios : List<Formulario>
+    - descuento : Float
+
+    + costo() : Float
+}
+
+class FormularioRespondido {
+    - tramite : Tramite
+    - fechaCreacion : LocalDate
+    - formulario : Formulario
+    - respuestas : List<Respuesta>
+    - fechaVencimiento: LocalDate
+    - estaVencido: bool
+    - contRenovaciones : Integer
+
+    + verificarVencimiento() : Boolean
+}
+
+class Formulario{
+    - preguntas: List<Pregunta>
+    - costo : Integer
+}
+
+class Pregunta{
+   - nombre : String
+   - obligatoria : Boolean
+}
+
+class Respuesta{
+    - pregunta : Pregunta
+    - valor : String
+    - opcionChoice: Opcion
+}
+    
+class EmailSender{
+    + mandarMail(destinatario, asunto, cuerpo);
+}
+
+class SolicitudTramite{
+    - fecha : LocalDateTime
+    - id : Integer
+    - tramite : Tramite
+    - entidad : Entidad
+    - formulariosCompletos: List<FormularioRespondido>
+    - estadoActual: EstadoSolicitud
+    - historialEstados : List<EstadoSolicitud>
+}
+
+class EstadoSolicitud{
+    - nombre: EstadosPosibles
+    - accionesEstado: List<Accion>
+
+    +ejecutarAcciones()
+    +ejecutarAccion(accion)
+}
+
+interface Accion{
+    + ejecutar(): void
+}
+
+class EnviarMail implements Accion{
+    - cuerpo : String
+    - emailSender: EmailSender
+
+    + ejecutar():  void
+}
+
+class EnviarAlerta implements Accion{
+    - mensaje: String
+    - alerta : Alerta
+
+    + ejecutar():  void
+}
+
+class LlamarApiExterna implements Accion{
+    - metodoHttp: MetodoHttp
+    - uri: String
+    - body: 
+}
+
+enum MetodoHttp{
+    GET,
+    POST,
+}
+
+enum EstadosPosibles{
+    PENDIENTE_REVISION,
+    EN_REVISION,
+    DIFERIDO,
+    ACEPTADO,
+    RECHAZADO
+} 
+
+Tramite --> Formulario
+FormularioRespondido --> Formulario
+FormularioRespondido --> Tramite
+FormularioRespondido --> "*" Respuesta
+Formulario --> "*" Pregunta
+Respuesta --> Opcion
+Respuesta --> Pregunta
+Entidad --> "*" Tramite
+SolicitudTramite --> Tramite
+SolicitudTramite --> Entidad
+SolicitudTramite --> "*" FormularioRespondido
+EstadoSolicitud --> "*" Accion
+
+
+
+
+@enduml

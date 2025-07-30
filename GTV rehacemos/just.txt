@@ -1,0 +1,30 @@
+// como se haría para mandar email... sería la clase formulariorespondido? dentro del metodo verificarVenc? preguntar
+
+
+Permitir el seguimiento (cambio de estados) de las solicitudes de trámites por parte de las entidades.
+CambioDeEstadoSolicitudController
+cambiarEstadoSolicitud(datos) {
+
+SolicitudDeTramite solicitudBuscada = this.repoSolicitudes.find(datos.solicitudTramiteId);
+PosibleEstadoTramite posibleEstado = this.repoPosiblesEstados.find(datos.posibleEstadoId);
+EstadoTramite nuevoEstadoTramite = new EstadoTramite();
+nuevoEstadoTramite.setPosibleEstado(posibleEstado);
+nuevoEstadoTramite.setFechaHora(LocalDateTime.now);
+solicitudBuscada.cambiarEstado(nuevoEstadoTramite);
+nuevoEstadoTramite.ejecutarAcciones();
+
+}
+
+
+Permitir que las entidades configuren las acciones a ejecutar en cada estado.
+
+>> PosibleEstadoTramiteController
+configurarAccion(datos) {
+
+PosibleEstadoTramite posibleEstado = this.repoPosiblesEstados.find(datos.posibleEstadoId);
+Accion unaAccion = FactoryAcciones.crearAccion(datos.accion, datos.configuracion);
+posibleEstado.agregarAccion(unaAccion);
+
+this.repoPosiblesEstados.merge(posibleEstado);
+
+}
