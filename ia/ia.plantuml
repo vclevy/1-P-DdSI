@@ -1,0 +1,147 @@
+@startuml ia
+
+class Proyecto{
+    - nombre : String 
+    - objetivo : String 
+    - duracion : Duracion
+    - promotores : List<Promotor>
+    - interesados : List<Persona>
+    - porcentajeAvance: Int
+    - hitos: List<Hito>
+    - criterios: Criterio
+    - aportes : List<Aporte>
+}
+
+Proyecto --> "*" Aporte
+Proyecto --> CriterioAvance
+Proyecto --> Duracion
+Proyecto -->"*" Hito
+
+interface CriterioAvance{
+    + determinarAvance(Proyecto): Int
+}
+
+class CantidadHitos implements CriterioAvance{
+    - parametroHitos: Int
+    + determinarAvance(Proyecto): Int
+}
+class HitoEspecifico implements CriterioAvance{
+    - hitoParticular: Hito
+    + determinarAvance(Proyecto): Int
+}
+class Aportes implements CriterioAvance{
+    - aportes: Int
+    + determinarAvance(Proyecto): Int
+}
+class CantidadFirmas implements CriterioAvance{
+    - firmas: Int
+    + determinarAvance(Proyecto): Int
+}
+
+class Duracion{
+    - dias: Int
+    - semanas: Int
+    - meses: Int
+    - anios: Int
+}
+
+class Hito{
+    - descripcion : String
+    - fecha : LocalDateTime
+    - hitosDependientes : List<Hito> NULLEABLE
+    - estado : Estado
+}
+
+Enum Estado{
+    COMPLETADO,
+    EN_CURSO,
+    PENDIENTE_HITO,
+    RECHAZADO
+}
+
+class Persona{
+    nombre: String
+    DNI: Int
+    nacionalidad: String
+    direccion: Direccion
+    contacto : Contacto 
+    esComunidadCientifica: Bool
+    esEstudianteArg: Bool
+    razonSocial: String
+}
+
+
+class Direccion{
+    -calle: String
+    -altura: Int
+    -localidad: String
+    -depto: String   
+}
+
+class VerificadorComunidadCientifica{
+    
+    + verificarDni(dni) : bool
+}
+
+interface ApiAdapter{
+    + verificarDni(dni) : bool
+}
+
+class SciFiArg24 implements ApiAdapter{
+    + verificarDni(dni) : bool
+}
+
+class GestorAporte{    
+    + aportar(persona, proyecto, TipoAporte) : void    
+    
+}
+
+class ValidadorAportes{
+    + validar(persona, Aporte, proyecto) : Boolean
+}
+
+class Aporte{
+    - tipo: TipoAporte
+    - persona: Persona
+    - fechaAporte: LocalDateTime
+}
+interface TipoAporte{   
+    + aportar(Persona, Proyecto): void
+}
+
+class Firmar implements TipoAporte{
+    + aportar(Persona, Proyecto):void
+}
+
+class DonarDinero implements TipoAporte{
+    - cantidadDinero: Int
+    - pago: PagoAdapter
+    + aportar(Persona, Proyecto):void
+}
+
+class DonarMaterial implements TipoAporte{
+    -material: String
+    + aportar(Persona, Proyecto):void
+}
+
+interface PagoAdapter{
+    + realizarPago(monto): void
+}
+
+class PagoHoy implements PagoAdapter{
+    + realizarPago(monto): void
+}
+
+
+DonarDinero --> PagoAdapter
+GestorAporte ..> Persona
+GestorAporte ..> Proyecto
+GestorAporte ..> TipoAporte
+GestorAporte ..> Aporte
+GestorAporte ..> ValidadorAportes
+VerificadorComunidadCientifica ..> ApiAdapter
+VerificadorComunidadCientifica ..> Persona
+Aporte--> Persona
+Aporte--> TipoAporte
+
+@enduml

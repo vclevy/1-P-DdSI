@@ -1,0 +1,20 @@
+@startuml broker
+
+class Actuador{
+    + registrarEvento(TipoDeEvento)
+}
+
+class Receptor{
+    - accionador: Accionador
+    - valorMax: Int
+    + evaluar(Tension): void
+}
+
+class Sensor{
+    - receptor: Receptor
+    + recibirDato(String): void
+}
+
+
+
+@enduml

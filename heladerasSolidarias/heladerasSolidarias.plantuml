@@ -1,0 +1,62 @@
+@startuml heladeritas
+
+class PersonaSolidaria{
+}
+
+class Formulario{
+    - preguntas: List<Pregunta>
+}
+
+class FormularioRespondido{
+    - personaSolidaria : PersonaSolidaria
+    - formulario : Formulario
+    - respuestas : List <Respuesta>
+}
+
+class Pregunta{
+    - nombre : String
+    - obligatoria : Boolean
+}
+
+class Respuesta{
+    - pregunta : Pregunta
+    - valorTexto : String
+}
+
+class Ubicacion{
+    - latitud : Double
+    - longitud : Double
+}
+
+class PuntoEstrategico{
+    - ubicacion : Ubicacion
+    - nombre : String
+}
+
+class Heladera{
+    - stock: Int
+    - ubicacion: PuntoEstrategico
+    - temperatura: Long 
+    - receptorTemperatura:
+    
+}
+
+class SensorTemperatura{
+    - receptor : ReceptorTemperatura
+
+    +recibirDato(String) : void
+}
+
+class Temperatura{
+    valor : Float
+}
+
+class ReceptorDeTemperatura{
+    -valorTempMax : Temperatura
+    -valorTempMin : Temperatura
+
+    +evaluar(Temperatura) : void
+}
+
+
+@enduml
